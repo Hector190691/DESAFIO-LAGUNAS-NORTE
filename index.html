@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERVOR CHALLENGE</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Pantalla de Inicio -->
+    <div id="inicio" class="pantalla">
+
+        <h1>PERVOR CHALLENGE</h1>
+
+        <p class="subtitulo">
+            Pon a prueba tus conocimientos sobre perforación minera
+        </p>
+
+        <button id="btnIniciar">
+            Iniciar Juego
+        </button>
+
+    </div>
+
+
+    <!-- Pantalla del Juego -->
+    <div id="juego" class="pantalla oculto">
+
+        <div class="barraSuperior">
+
+            <div id="nivel">
+                Nivel 1
+            </div>
+
+            <div id="puntaje">
+                Puntaje: 0
+            </div>
+
+        </div>
+
+        <div id="pregunta" class="pregunta">
+            Aquí aparecerá la pregunta
+        </div>
+
+        <div id="opciones" class="opciones">
+
+            <!-- Las respuestas se cargarán automáticamente -->
+
+        </div>
+
+        <div class="barraInferior">
+
+            <button id="btnSiguiente">
+                Siguiente
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Pantalla Final -->
+    <div id="final" class="pantalla oculto">
+
+        <h2>¡Juego terminado!</h2>
+
+        <p id="resultadoFinal"></p>
+
+        <button id="btnReiniciar">
+            Jugar nuevamente
+        </button>
+
+    </div>
+
+
+    <script src="preguntas.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
