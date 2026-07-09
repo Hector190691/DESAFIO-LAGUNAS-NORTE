@@ -1,3 +1,11 @@
+// SONIDOS
+const sonidoCorrecto = new Audio("audio/correcto.mp3");
+const sonidoIncorrecto = new Audio("audio/incorrecto.mp3");
+const sonidoGanador = new Audio("audio/ganador.mp3");
+const mensajeRespuesta = document.getElementById("mensajeRespuesta");
+const tituloMensaje = document.getElementById("tituloMensaje");
+const textoMensaje = document.getElementById("textoMensaje");
+const barraProgreso = document.getElementById("barraProgreso");
 const inicio = document.getElementById("inicio");
 const juego = document.getElementById("juego");
 const final = document.getElementById("final");
@@ -22,6 +30,15 @@ btnReiniciar.addEventListener("click", iniciarJuego);
 
 function iniciarJuego() {
 
+    const nombre = document.getElementById("nombre").value.trim();
+    const dni = document.getElementById("dni").value.trim();
+    const area = document.getElementById("area").value.trim();
+
+    if(nombre==="" || dni==="" || area===""){
+        alert("Complete todos los datos para iniciar.");
+        return;
+    }
+
     preguntasJuego = [...preguntas];
 
     mezclar(preguntasJuego);
@@ -36,9 +53,15 @@ function iniciarJuego() {
     actualizarMarcador();
 
     mostrarPregunta();
+
 }
 
 function mostrarPregunta() {
+
+nivelElemento.textContent = `Pregunta ${indicePregunta + 1} de ${preguntasJuego.length}`;
+
+barraProgreso.style.width =
+    ((indicePregunta + 1) / preguntasJuego.length) * 100 + "%";
 
     opcionesElemento.innerHTML = "";
 
@@ -62,44 +85,73 @@ function mostrarPregunta() {
 
 }
 
-function responder(indiceSeleccionado) {
+function responder(indiceSeleccionado){
 
     const actual = preguntasJuego[indicePregunta];
 
     const botones = opcionesElemento.querySelectorAll("button");
 
-    botones.forEach((boton, indice) => {
+    botones.forEach((boton, indice)=>{
 
-        boton.disabled = true;
+        boton.disabled=true;
 
-        if (indice === actual.correcta) {
+        if(indice===actual.correcta){
             boton.classList.add("correcta");
         }
 
-        if (indice === indiceSeleccionado && indice !== actual.correcta) {
+        if(indice===indiceSeleccionado && indice!==actual.correcta){
             boton.classList.add("incorrecta");
         }
 
     });
 
-    if (indiceSeleccionado === actual.correcta) {
-        puntaje += 10;
-    }
+mensajeRespuesta.classList.remove("oculto");
+mensajeRespuesta.classList.remove("correctoMensaje");
+mensajeRespuesta.classList.remove("incorrectoMensaje");
 
-    actualizarMarcador();
+if(indiceSeleccionado===actual.correcta){
 
-    btnSiguiente.style.display = "inline-block";
+    puntaje += 10;
+
+    // 🔊 Sonido de respuesta correcta
+    sonidoCorrecto.currentTime = 0;
+    sonidoCorrecto.play();
+
+    mensajeRespuesta.classList.add("correctoMensaje");
+    tituloMensaje.textContent = "✅ " + actual.mensajeCorrecto.titulo;
+    textoMensaje.textContent = actual.mensajeCorrecto.texto;
+
+}else{
+
+    // 🔊 Sonido de respuesta incorrecta
+    sonidoIncorrecto.currentTime = 0;
+    sonidoIncorrecto.play();
+
+    mensajeRespuesta.classList.add("incorrectoMensaje");
+    tituloMensaje.textContent = "❌ " + actual.mensajeIncorrecto.titulo;
+    textoMensaje.textContent = actual.mensajeIncorrecto.texto;
 
 }
+
+actualizarMarcador();
+
+btnSiguiente.style.display = "inline-block";
+
+} // <-- Cierra la función responder()
 
 function siguientePregunta() {
 
     indicePregunta++;
 
     if (indicePregunta >= preguntasJuego.length) {
+
         terminarJuego();
+
     } else {
+
+        mensajeRespuesta.classList.add("oculto");
         mostrarPregunta();
+
     }
 
 }
@@ -113,19 +165,40 @@ function actualizarMarcador() {
 
 }
 
-function terminarJuego() {
+function terminarJuego(){
+
+sonidoGanador.currentTime = 0;
+sonidoGanador.play();
 
     juego.classList.add("oculto");
 
     final.classList.remove("oculto");
 
-    resultadoFinal.innerHTML =
-        "<h3>Obtuviste <strong>" +
-        puntaje +
-        "</strong> puntos de <strong>" +
-        (preguntasJuego.length * 10) +
-        "</strong></h3>";
+    let correctas = puntaje / 10;
 
+    let porcentaje = (correctas / preguntasJuego.length) * 100;
+
+    let mensaje = "";
+
+    if(porcentaje == 100){
+        mensaje = "🥇 ¡Excelente! Eres un experto en perforación.";
+    }
+    else if(porcentaje >= 80){
+        mensaje = "🥈 ¡Muy buen trabajo!";
+    }
+    else if(porcentaje >= 60){
+        mensaje = "🥉 Buen intento. Sigue practicando.";
+    }
+    else{
+        mensaje = "📚 Necesitas reforzar tus conocimientos.";
+    }
+
+    resultadoFinal.innerHTML = `
+        <h2>🏆 RESULTADO FINAL</h2>
+        <h1>${porcentaje}%</h1>
+        <h3>${correctas} de ${preguntasJuego.length} respuestas correctas</h3>
+        <p>${mensaje}</p>
+    `;
 }
 
 function mezclar(array) {

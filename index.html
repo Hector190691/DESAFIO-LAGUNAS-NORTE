@@ -11,19 +11,36 @@
 <body>
 
     <!-- Pantalla de Inicio -->
-    <div id="inicio" class="pantalla">
+   <div id="inicio" class="pantalla">
 
-        <h1>PERVOR CHALLENGE</h1>
+    <img src="logo.png" class="logo" alt="PERVOR">
 
-        <p class="subtitulo">
-            Pon a prueba tus conocimientos sobre perforación minera
-        </p>
+    <h1>🏁 DESAFÍO LAGUNAS NORTE</h1>
 
-        <button id="btnIniciar">
-            Iniciar Juego
-        </button>
+   <p class="subtitulo">
+    🚗 Campaña de Manejo Defensivo
+</p>
 
-    </div>
+    <input
+        type="text"
+        id="nombre"
+        placeholder="Nombres y Apellidos">
+
+    <input
+        type="text"
+        id="dni"
+        placeholder="Número de DNI">
+
+    <input
+        type="text"
+        id="area"
+        placeholder="Área o Frente de Trabajo">
+
+    <button id="btnIniciar">
+    🚀 Iniciar Desafío
+</button>
+
+</div>
 
 
     <!-- Pantalla del Juego -->
@@ -31,10 +48,13 @@
 
         <div class="barraSuperior">
 
-            <div id="nivel">
-                Nivel 1
-            </div>
+<div class="progreso">
+    <div id="barraProgreso"></div>
+</div>
 
+<div id="nivel">
+    Pregunta 1 de 10
+</div>
             <div id="puntaje">
                 Puntaje: 0
             </div>
@@ -50,6 +70,11 @@
             <!-- Las respuestas se cargarán automáticamente -->
 
         </div>
+
+<div id="mensajeRespuesta" class="mensaje oculto">
+    <h3 id="tituloMensaje"></h3>
+    <p id="textoMensaje"></p>
+</div>
 
         <div class="barraInferior">
 
